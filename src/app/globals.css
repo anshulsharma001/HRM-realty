@@ -1,0 +1,638 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Theme (§2.3–2.5). Defaults the art direction bans are wiped first so */
+/* the banned values cannot be reached by utility class.                */
+/* ------------------------------------------------------------------ */
+@theme {
+  --color-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --shadow-*: initial;
+  --inset-shadow-*: initial;
+  --drop-shadow-*: initial;
+  --text-shadow-*: initial;
+  --radius-*: initial;
+  --animate-*: initial;
+  --blur-*: initial;
+
+  /* Colour */
+  --color-ink: #12100d;
+  --color-paper: #e4e1d6;
+  --color-paper-hi: #f2f0e9;
+  --color-steel: #56606a;
+  --color-steel-dk: #333b42;
+  --color-wheat: #c9a24b;
+  --color-soil: #6b563c;
+  --color-rule: rgba(18, 16, 13, 0.16);
+  --color-rule-inv: rgba(228, 225, 214, 0.2);
+
+  /* Type: two families, no third. */
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+  --font-text: var(--font-switzer), "Helvetica Neue", Arial, sans-serif;
+  --font-sans: var(--font-text);
+
+  /* Scale: base 17px, perfect fourth for display. */
+  --text-display-xl: clamp(3.5rem, 8vw, 7.5rem);
+  --text-display-xl--line-height: 0.92;
+  --text-display-xl--letter-spacing: -0.02em;
+  --text-display-xl--font-weight: 400;
+
+  --text-display-lg: clamp(2.6rem, 5vw, 4.5rem);
+  --text-display-lg--line-height: 1.02;
+  --text-display-lg--letter-spacing: -0.015em;
+  --text-display-lg--font-weight: 400;
+
+  --text-h2: clamp(2rem, 3.2vw, 3rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--font-weight: 400;
+
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 1.3;
+  --text-h3--font-weight: 500;
+
+  --text-body: 1.0625rem;
+  --text-body--line-height: 1.6;
+  --text-body--font-weight: 400;
+
+  --text-lead: 1.25rem;
+  --text-lead--line-height: 1.5;
+  --text-lead--font-weight: 400;
+
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.5;
+  --text-small--font-weight: 400;
+
+  --text-micro: 0.8125rem;
+  --text-micro--line-height: 1.4;
+  --text-micro--letter-spacing: 0.01em;
+  --text-micro--font-weight: 500;
+
+  /* Layout */
+  --container-site: 90rem; /* 1440px */
+  --spacing-gutter: 1.5rem; /* 24px */
+  --spacing-rail: 2rem; /* 32px left rail */
+
+  /* Only radius permitted: form-field hairline softening. */
+  --radius-hair: 2px;
+
+  /* CSS-side equivalents of the GSAP eases, for hover transitions only. */
+  --ease-reveal: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-move: cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    --site-margin: 1.25rem; /* 20px mobile */
+    --chapter-gap: 4rem; /* 64px mobile */
+    --rule-color: var(--color-rule);
+    --rail-text: var(--color-steel);
+    color-scheme: light;
+    scroll-padding-top: 5rem;
+  }
+
+  @media (width >= 64rem) {
+    :root {
+      --site-margin: 4rem; /* 64px desktop */
+      --chapter-gap: 7.5rem; /* 120px desktop */
+    }
+  }
+
+  html {
+    background: var(--color-paper);
+    scrollbar-gutter: stable;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-text);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-feature-settings: "kern", "liga", "calt";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-wheat);
+    outline-offset: 2px;
+  }
+
+  img,
+  svg,
+  video,
+  canvas {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* CSS-side reduced motion. GSAP has its own matchMedia branch (§3.4). */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Type utilities: family + variation + scale in one class, so a heading */
+/* cannot accidentally be set in the wrong face.                         */
+/* ------------------------------------------------------------------ */
+@utility type-display-xl {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+  font-size: var(--text-display-xl);
+  line-height: var(--text-display-xl--line-height);
+  letter-spacing: var(--text-display-xl--letter-spacing);
+  font-weight: 400;
+}
+
+@utility type-display-lg {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 144, "SOFT" 0, "WONK" 0;
+  font-size: var(--text-display-lg);
+  line-height: var(--text-display-lg--line-height);
+  letter-spacing: var(--text-display-lg--letter-spacing);
+  font-weight: 400;
+}
+
+@utility type-h2 {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 96, "SOFT" 0, "WONK" 0;
+  font-size: var(--text-h2);
+  line-height: var(--text-h2--line-height);
+  font-weight: 400;
+}
+
+@utility type-h3 {
+  font-family: var(--font-text);
+  font-size: var(--text-h3);
+  line-height: var(--text-h3--line-height);
+  font-weight: 500;
+}
+
+@utility type-body {
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  line-height: var(--text-body--line-height);
+  font-weight: 400;
+  max-width: 68ch;
+}
+
+@utility type-lead {
+  font-family: var(--font-text);
+  font-size: var(--text-lead);
+  line-height: var(--text-lead--line-height);
+  font-weight: 400;
+  max-width: 60ch;
+}
+
+@utility type-small {
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+  line-height: var(--text-small--line-height);
+  font-weight: 400;
+}
+
+@utility type-micro {
+  font-family: var(--font-text);
+  font-size: var(--text-micro);
+  line-height: var(--text-micro--line-height);
+  letter-spacing: var(--text-micro--letter-spacing);
+  font-weight: 500;
+}
+
+/* Tabular lining figures for every stat (§2.4). */
+@utility tnum {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* ------------------------------------------------------------------ */
+/* Layout utilities (§2.5)                                              */
+/* ------------------------------------------------------------------ */
+@utility container-site {
+  position: relative;
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: var(--site-margin);
+}
+
+@utility grid-site {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: 1rem;
+  @media (width >= 64rem) {
+    column-gap: var(--spacing-gutter);
+  }
+}
+
+/* Tone: sets surface, ink and the rule/rail colours in one go. */
+@utility tone-paper {
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+  --rule-color: var(--color-rule);
+  --rail-text: var(--color-steel);
+}
+
+@utility tone-paper-hi {
+  background-color: var(--color-paper-hi);
+  color: var(--color-ink);
+  --rule-color: var(--color-rule);
+  --rail-text: var(--color-steel);
+}
+
+@utility tone-ink {
+  background-color: var(--color-ink);
+  color: var(--color-paper);
+  --rule-color: var(--color-rule-inv);
+  --rail-text: rgba(228, 225, 214, 0.62);
+}
+
+/* A chapter: vertical rhythm plus the survey-sheet rail on desktop. */
+@utility chapter {
+  position: relative;
+  padding-block: var(--chapter-pad, var(--chapter-gap));
+  @media (width >= 64rem) {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: calc(max((100% - var(--container-site)) / 2, 0px) + var(--spacing-rail));
+      width: 1px;
+      background: var(--rule-color);
+      pointer-events: none;
+    }
+  }
+}
+
+@utility pad-none {
+  --chapter-pad: 0px;
+}
+
+@utility pad-tight {
+  --chapter-pad: calc(var(--chapter-gap) / 2);
+}
+
+@utility pad-loose {
+  --chapter-pad: calc(var(--chapter-gap) * 1.25);
+}
+
+/* Warm surface for the residential chapter: paper-hi with wheat rules. */
+@utility tone-warm {
+  background-color: var(--color-paper-hi);
+  color: var(--color-ink);
+  --rule-color: color-mix(in srgb, var(--color-wheat) 55%, transparent);
+  --rail-text: var(--color-soil);
+}
+
+/* Chapter marker: an 8px tick off the rail and a vertical sentence-case label. */
+@utility rail-marker {
+  display: none;
+  @media (width >= 64rem) {
+    display: block;
+    position: absolute;
+    top: var(--chapter-gap);
+    left: calc(max((100% - var(--container-site)) / 2, 0px) + var(--spacing-rail) + 0.5rem);
+    padding-top: 0.75rem;
+    font-family: var(--font-text);
+    font-size: var(--text-micro);
+    font-weight: 500;
+    letter-spacing: var(--text-micro--letter-spacing);
+    line-height: 1;
+    color: var(--rail-text);
+    writing-mode: vertical-rl;
+    pointer-events: none;
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -0.5rem;
+      width: 0.5rem;
+      height: 1px;
+      background: var(--rule-color);
+    }
+  }
+}
+
+/* Hairline rule that adapts to the chapter tone. */
+@utility rule {
+  height: 1px;
+  background: var(--rule-color);
+}
+
+@utility rule-v {
+  width: 1px;
+  background: var(--rule-color);
+}
+
+/* ------------------------------------------------------------------ */
+/* Interactive primitives (§3.2): CSS-only, transform/opacity only.     */
+/* ------------------------------------------------------------------ */
+
+/* Link: underline draws from the left on hover. No colour change. */
+@utility link-rule {
+  position: relative;
+  text-decoration: none;
+  color: inherit;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.1em;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.25s var(--ease-reveal);
+  }
+  &:hover::after,
+  &:focus-visible::after,
+  &[aria-current="page"]::after {
+    transform: scaleX(1);
+  }
+}
+
+/* Button: background fills from the bottom edge. No lift, shadow or arrow. */
+@utility btn {
+  --btn-fill: var(--color-ink);
+  --btn-fill-text: var(--color-paper);
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid currentColor;
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: inherit;
+  background: transparent;
+  text-decoration: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: color 0.3s var(--ease-reveal);
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--btn-fill);
+    transform: scaleY(0);
+    transform-origin: bottom center;
+    transition: transform 0.3s var(--ease-reveal);
+  }
+  &:hover,
+  &:focus-visible {
+    color: var(--btn-fill-text);
+  }
+  &:hover::before,
+  &:focus-visible::before {
+    transform: scaleY(1);
+  }
+}
+
+@utility btn-inv {
+  --btn-fill: var(--color-paper);
+  --btn-fill-text: var(--color-ink);
+}
+
+/* Image grade (§2.3): lift blacks toward ink by compositing over ink. */
+@utility grade-cold {
+  background-color: var(--color-ink);
+  & > img,
+  & > video {
+    opacity: 0.94;
+    filter: saturate(0.78) contrast(0.96);
+  }
+}
+
+@utility grade-warm {
+  background-color: var(--color-ink);
+  & > img,
+  & > video {
+    opacity: 0.94;
+    filter: saturate(0.85) sepia(0.14) contrast(0.96);
+  }
+}
+
+/* Skip link (§4.5) */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: var(--site-margin);
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--color-ink);
+  color: var(--color-paper);
+  font-family: var(--font-text);
+  font-size: var(--text-small);
+  font-weight: 500;
+  transform: translateY(-120%);
+  transition: transform 0.2s var(--ease-reveal);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0.5rem);
+}
+
+/* ------------------------------------------------------------------ */
+/* Forms, strips, map legend                                            */
+/* ------------------------------------------------------------------ */
+@utility field {
+  display: block;
+  width: 100%;
+  min-height: 3rem;
+  padding: 0.75rem 0.875rem;
+  background: var(--color-paper-hi);
+  color: var(--color-ink);
+  border: 1px solid var(--color-rule);
+  border-radius: var(--radius-hair);
+  font-family: var(--font-text);
+  font-size: var(--text-body);
+  line-height: 1.4;
+  &[aria-invalid="true"] {
+    border-color: var(--color-soil);
+  }
+}
+
+/* Native horizontal strip with a thin, visible scrollbar. */
+@utility strip {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-steel) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Survey-legend chip: a square swatch mark and a label. Not a pill. */
+@utility legend-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid var(--rule-color);
+  background: transparent;
+  color: inherit;
+  font-family: var(--font-text);
+  font-size: var(--text-micro);
+  font-weight: 500;
+  letter-spacing: var(--text-micro--letter-spacing);
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  & > .swatch {
+    width: 0.625rem;
+    height: 0.625rem;
+    border: 1px solid currentColor;
+    background: currentColor;
+  }
+  &[aria-pressed="false"] {
+    color: var(--color-steel);
+    & > .swatch {
+      background: transparent;
+    }
+  }
+}
+
+/* Tone-aware rules for borders and fills: follow --rule-color, so lists keep */
+/* their rules on ink chapters as well as paper.                              */
+@utility border-tone {
+  border-color: var(--rule-color);
+}
+
+@utility bg-tone-rule {
+  background-color: var(--rule-color);
+}
+
+/* ------------------------------------------------------------------ */
+/* Name reveal: three stacking cards. On desktop each card starts one   */
+/* third further in and sticks at the same top, so the collected stack  */
+/* reads H, R, M across. On phones they stack with a vertical offset so */
+/* the letters read top to bottom. --i is the card index (0, 1, 2).     */
+/* ------------------------------------------------------------------ */
+@utility name-stack {
+  position: relative;
+  /* A sticky child is constrained (margins included) to its parent's content
+     box, so the hold for the collected state is a spacer sibling after the
+     last card, never padding here or a margin on the card. */
+}
+
+@utility name-card {
+  position: sticky;
+  top: calc(4rem + var(--i) * 5rem);
+  display: flex;
+  flex-direction: column;
+  min-height: 62svh;
+  width: 100%;
+  padding: 0.875rem 1.25rem 2rem;
+  color: var(--color-ink);
+  & + & {
+    margin-top: 1rem;
+  }
+  @media (width >= 64rem) {
+    top: 5rem;
+    min-height: calc(100svh - 6rem);
+    margin-inline-start: calc(var(--i) * (100% / 3));
+    width: calc(100% - var(--i) * (100% / 3));
+    padding: 2.25rem 2.5rem 3rem;
+    & + & {
+      margin-top: 1.5rem;
+    }
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Map pins: the li carries the position (its translate puts the marker  */
+/* centre on the point); the button inside animates. Labels on desktop. */
+/* ------------------------------------------------------------------ */
+@utility pin-at {
+  position: absolute;
+  transform: translate(-0.375rem, -50%);
+}
+
+@utility pin-at-left {
+  position: absolute;
+  transform: translate(calc(-100% + 0.375rem), -50%);
+}
+
+@utility map-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  margin: -0.75rem;
+  border: 0;
+  background: transparent;
+  color: var(--color-steel-dk);
+  cursor: pointer;
+  & > .marker {
+    flex: none;
+    width: 0.75rem;
+    height: 0.75rem;
+    border: 1px solid currentColor;
+    background: var(--color-paper);
+  }
+  & > .label {
+    display: none;
+    font-family: var(--font-text);
+    font-size: var(--text-micro);
+    font-weight: 500;
+    letter-spacing: var(--text-micro--letter-spacing);
+    line-height: 1;
+    padding: 0.25rem 0.375rem;
+    background: var(--color-paper);
+    white-space: nowrap;
+    @media (width >= 64rem) {
+      display: inline;
+    }
+  }
+  &:hover,
+  &[aria-pressed="true"] {
+    color: var(--color-ink);
+  }
+  &[aria-pressed="true"] > .marker {
+    background: var(--color-ink);
+  }
+}
