@@ -3,8 +3,9 @@ import type { ImageSpec } from "./types";
 /**
  * Image manifest and shoot list. Slots hold photographs from the client's existing
  * website (hrmrealty.com) where one fits, and Lorem Picsum stand-ins elsewhere; each
- * `dummy` names the source. No slot shows a person as a named individual. Replace
- * `src` with the shoot and delete `dummy`; add `alt` then.
+ * `dummy` names the source. No stand-in shows a person as a named individual; only the
+ * client's own photographs of the founder and Rahul do. Replace `src` with the shoot and
+ * delete `dummy`; add `alt` then.
  */
 export const IMAGES = {
   /* Client-supplied hero art: painted industrial horizon, 21:9. Not a stand-in. */
@@ -17,6 +18,28 @@ export const IMAGES = {
     grade: "cold",
     src: "/images/hero-image.png",
     alt: "Painted panorama of an industrial horizon: sheds, chimneys, a water tower, silos and pylons beyond dry fields under a hazy sky.",
+  },
+  /* Client-supplied banner of the founder, 5:2. Not a stand-in. */
+  "founder-hero": {
+    id: "founder-hero",
+    subject: "Shri Hari Parkash Mangla Ji seated in an armchair, the line सुख. शांति. संतुष्टि. set beside him. Used on /founder under the title.",
+    aspect: "5/2",
+    width: 1600,
+    height: 641,
+    grade: "warm",
+    src: "/images/founder.jpeg",
+    alt: "Shri Hari Parkash Mangla Ji seated in an armchair. Beside him, in Hindi: Sukh. Shanti. Santushti. (Happiness. Peace. Contentment.)",
+  },
+  /* Client-supplied headshot of Rahul, 230px square: shown at 112 CSS px or less so it stays sharp on 2× screens. Not a stand-in. */
+  "headshot-rahul": {
+    id: "headshot-rahul",
+    subject: "Rahul Mangla, head and shoulders, in a suit. Used on /founder under The next step.",
+    aspect: "1/1",
+    width: 230,
+    height: 230,
+    grade: "cold",
+    src: "/images/rahul.jpeg",
+    alt: "Rahul Mangla in a grey suit and tie",
   },
   "portrait-rahul": { id: "portrait-rahul", subject: "Rahul Mangla, standing on site, natural light", aspect: "4/5", width: 1200, height: 1500, grade: "cold", src: "/images/portrait-rahul.jpg", dummy: { source: "https://hrmrealty.com/assets/hrm-realty-building.jpg", author: "HRM Realty website" } },
   "founder-early": { id: "founder-early", subject: "Archive photograph, early plots, 1990s", aspect: "3/2", width: 1800, height: 1200, grade: "cold", src: "/images/founder-early.jpg", dummy: { source: "hero-image.png (sheds crop)", author: "Client" } },
@@ -32,7 +55,7 @@ export const IMAGES = {
   "layer-colleges": { id: "layer-colleges", subject: "Colleges layer, a college building", aspect: "3/2", width: 900, height: 600, grade: "cold", src: "/images/layer-colleges.jpg", dummy: { source: "https://picsum.photos/id/1033", author: "Erez Attias" } },
   "layer-university": { id: "layer-university", subject: "University layer, a campus landmark", aspect: "3/2", width: 900, height: 600, grade: "cold", src: "/images/layer-university.jpg", dummy: { source: "https://picsum.photos/id/1076", author: "Samuel Zeller" } },
   "layer-hospitality": { id: "layer-hospitality", subject: "Hospitality layer, the resort", aspect: "3/2", width: 900, height: 600, grade: "cold", src: "/images/layer-hospitality.jpg", dummy: { source: "https://picsum.photos/id/42", author: "Luke Chesser" } },
-  "founder-site": { id: "founder-site", subject: "Shri Hari Parkash Mangla Ji: a formal portrait, natural light, 4:5. Used on /founder beside the title and on the H card of the home page.", aspect: "4/5", width: 1200, height: 1500, grade: "cold", src: "/images/founder-site.jpg", dummy: { source: "hero-image.png (water tower crop)", author: "Client" } },
+  "founder-site": { id: "founder-site", subject: "Shri Hari Parkash Mangla Ji: a formal portrait, natural light, 4:5. Used on the H card of the home page.", aspect: "4/5", width: 1200, height: 1500, grade: "cold", src: "/images/founder-site.jpg", dummy: { source: "hero-image.png (water tower crop)", author: "Client" } },
   "ecosystem-industry": { id: "ecosystem-industry", subject: "Food processing: the plant, silos or line", aspect: "3/2", width: 1800, height: 1200, grade: "cold", src: "/images/ecosystem-industry.jpg", dummy: { source: "hero-image.png (tower and silos crop)", author: "Client" } },
   "community-family": { id: "community-family", subject: "Community: three generations of a Sonipat family", aspect: "3/2", width: 1200, height: 800, grade: "warm", src: "/images/community-family.jpg", dummy: { source: "https://hrmrealty.com/assets/client-family-2.jpg", author: "HRM Realty website" } },
   "office-building": { id: "office-building", subject: "The corporate office, exterior", aspect: "3/2", width: 1200, height: 800, grade: "cold", src: "/images/office-building.jpg", dummy: { source: "https://hrmrealty.com/assets/hrm-realty-building.jpg", author: "HRM Realty website" } },

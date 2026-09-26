@@ -36,7 +36,7 @@ Without `RESEND_API_KEY` and `ENQUIRY_TO`, a development server logs the enquiry
 | Route | Sections |
 |---|---|
 | `/` | Hero (client's horizon zoomed to the building line and cursor-panned; copy aligned to the left margin with the logo; title, lead, the evolving-story paragraph and both deck CTAs with a SplitText load sequence), NameReveal (three stacking cards that collect into H, R, M; five commitments under M), EvolvingStory (portrait photograph beside the text), Stats (indent by magnitude; count-up set-piece), MapTeaser (the eight verticals pinned on the Sonipat map, popping in on scroll; hover, focus or tap shows the vertical's photograph and name) |
-| `/founder` | FounderHero (title and name with the founder portrait slot beside them), sticky early-plots photograph with FounderIntro, AcreageGrid (canvas, "His impact"), Contribution, NextStep, Vision (first wheat) |
+| `/founder` | FounderHero (title and name, the client's banner of the founder beneath them, offset right), sticky early-plots photograph with FounderIntro, AcreageGrid (canvas, "His impact"), Contribution, NextStep (closes on Rahul's headshot with his R-card line), Vision (first wheat) |
 | `/sonipat` | SonipatHero, SonipatIntro (full-width photograph), TransformationChain (`data-chain` c1–c7 pairs), JourneyEvolves (community photograph, four paragraphs, four transitions, closing), TheTurn (two lines on ink, second in wheat), SonipatMap (eight toggles, text equivalent) |
 | `/ecosystem` | EcosystemIntro, EcosystemIndex (two-column grid: uniform 3:2 photograph, category, entries with line icons and one line each), Values (six with line icons and one line each, two columns) |
 | `/projects/industrial` | ProjectsIntro, ProjectDetail ×2 (tagline, acreage, description, six highlights with line icons, project photograph), WhyHRM (six reasons with line icons, two columns) |
@@ -82,12 +82,14 @@ Photographs come from two places, and every manifest entry in `src/content/image
 - **The client's existing website (hrmrealty.com).** Its project renders and office photographs fill the slots where they fit. No person from that site is shown as a named individual: the founder and Rahul slots carry the estate and the office building rather than a stock face. Stock people appear only in generic roles (the Entrepreneur stage, the families on the residential route).
 - **Lorem Picsum stand-ins** where the old site has nothing suitable (four map-layer photographs and the logistics layer).
 
-The hero backdrop is `public/images/hero-image.png`, supplied directly by the client. Before launch: replace each `src` with the shoot listed in `subject`, add `alt`, and delete `dummy`. Images render through `next/image` with explicit dimensions and the chapter's grade filter.
+The hero backdrop is `public/images/hero-image.png`, supplied directly by the client, as are the founder's banner (`founder.jpeg`, 1600 × 641) and Rahul's headshot (`rahul.jpeg`, 230px square), both on `/founder`. Before launch: replace each `src` with the shoot listed in `subject`, add `alt`, and delete `dummy`. Images render through `next/image` with explicit dimensions and the chapter's grade filter.
 
 | Slot | Placed on | Source |
 |---|---|---|
 | hero | `/` hero backdrop, full bleed, priority; zoomed so the building baseline sits just above the bottom edge with ground beneath, panned on the x axis by the cursor and drifted upward on scroll (`HeroArt`) | Client-supplied `hero-image.png` |
-| founder-site | The founder portrait slot: `/founder` beside the title and the H card on `/`. No photograph of Shri Hari Parkash Mangla Ji exists on this machine or the old site; the slot shows a Sonipat crop until one is supplied | hero-image.png, water-tower crop, standing in for the founder |
+| founder-hero | `/founder` under the title, offset right across eight columns (about 870 CSS px at most, so the 1600px source holds up on 2× screens), priority. Shown whole: the line सुख. शांति. संतुष्टि. is part of the artwork | Client-supplied `founder.jpeg` |
+| headshot-rahul | `/founder`, closing The next step beside Rahul's name, at 96px on phones and 112px on desktop so the 230px source stays sharp | Client-supplied `rahul.jpeg` |
+| founder-site | The founder portrait slot on the H card of `/`. The client's banner is too short (641px) to crop to a sharp 4:5, so the slot shows a Sonipat crop until a portrait is supplied | hero-image.png, water-tower crop, standing in for the founder |
 | founder-early | `/founder` sticky beside the story | hero-image.png, sheds crop |
 | sonipat-industrial | `/sonipat` under the intro, full width | hero-image.png, pylon-and-sheds crop |
 | portrait-rahul | `/` name reveal (R card) | hrmrealty.com hrm-realty-building |
@@ -138,9 +140,9 @@ Outstanding questions:
 - Is "10,000+ factories" defensible under RERA advertising scrutiny?
 - Residential: a named project or a registrations-opening capture? HRERA number required either way. `/projects/residential` has no project attached and ends in an interest register; do not publish it live without the HRERA disclosure.
 - The ecosystem index has six categories although the brief said seven.
-- All photographs except the hero are interim: the old site's renders and stock, or Picsum. The shoot list is the `subject` field of each manifest entry. A real portrait of the founder and of Rahul are the most visible gaps.
+- All photographs except the hero and the two on `/founder` from the client are interim: the old site's renders and stock, or Picsum. The shoot list is the `subject` field of each manifest entry. 4:5 portraits of the founder and of Rahul for the home page's H and R cards are the most visible gaps.
 - The logo was received as a PDF containing a raster image. Ask for the vector master.
-- The founder photograph. None was supplied and none exists on the old site; the `founder-site` slot (4:5) takes it on `/founder` and the home H card the moment the file is dropped in.
+- Portraits for the home page. The founder's banner (641px tall) and Rahul's headshot (230px) are too small to crop sharply into the name reveal's 4:5 cards, which still show stand-ins. Ask for 4:5 originals at least 1200px wide; the `founder-site` and `portrait-rahul` slots take them the moment the files are dropped in.
 - 26 Sep review, still open on the client side: real Sonipat photography for the sections that now share crops of one photograph; actual project photographs if the old site's two renders are not what was meant; Indian family-at-home photographs for the residential route; a sharp team photograph at 2400px or wider; real locations for the map pins.
 
 ## Measured
