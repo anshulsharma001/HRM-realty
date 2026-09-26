@@ -36,6 +36,8 @@ export const FOUNDER = {
     // Rendered exactly as the deck writes it. Ungrammatical; flagged with a suggested replacement in the README.
     paragraph:
       "For more than three decades, Shri Hari Parkash Mangla Ji has watched his hometown transform from the lens of business. But now it's time, HRM provides better living opportunities to the people of Sonipat, where they don't just live but thrive.",
+    // Rahul's line is the deck's R card on the home page, repeated here under his headshot.
+    nextGeneration: { name: "Rahul Mangla", line: "The next generation carrying that vision forward" },
   },
   vision: {
     heading: "His vision",

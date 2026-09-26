@@ -1,6 +1,6 @@
 import type { Temperature } from "@/lib/motion";
 
-export type Aspect = "16/9" | "21/9" | "3/2" | "2/1" | "4/5" | "1/1";
+export type Aspect = "16/9" | "21/9" | "5/2" | "3/2" | "2/1" | "4/5" | "1/1";
 
 export interface ImageSpec {
   id: string;
